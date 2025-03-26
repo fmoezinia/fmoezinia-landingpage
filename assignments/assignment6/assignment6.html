@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Fredric Moezinia</title>
+  </head>
+  <body>
+    <h1>
+6.S198 Assignment 6
+name: Fredric Moezinia.
+email: moezinia@mit.edu.
+</h1>
+<h2> Problem 1 </h2>
+<p>
+The reward scheme for Frozen Lake is as follows:
+When you reach the goal, there is a reward of +1.
+Otherwise, all other states have rewards of 0.
+However, when you reach either the goal or a Hole state, then the game is terminated.
+ </p>
+
+ <h2> Problem 2</h2>
+
+ <p>
+   The table needs to contain a Q reward for every possible action in every possible state.
+   There are 16 states and 4 actions per state, therefore this table would have to be 16 by 4 = size 64.
+  </p>
+
+
+<h2> Problem 3 </h2>
+<p>
+  Yes the rewards improve over time, because the action is greedily picked as the argmax from the Q table.
+  This is done repeatedely, and the reward table is updated based on the argmax so the rewards are improving over time.
+ </p>
+ <p><a href="main.txt">Code: main python file is here</a></p>
+
+ <h2> Problem 4 </h2>
+
+ <p>
+   I provided my code above. I tried a few different configurations. When I decreased the learning rate and the discount rate,
+   I saw that the rewards did not update as rapidly over the course of the procedure. Since the discount rate discounts future rewards, and near-zero
+   rates mean that the algorithm becomes very myopic, only focusing on short term rewards.
+  </p>
+
+
+  </body>
+</html>

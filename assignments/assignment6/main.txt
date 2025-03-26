@@ -1,0 +1,36 @@
+import gym
+import numpy as np
+
+env = gym.make("FrozenLake-v0")
+
+#Q learning code starts here
+Q = np.zeros([env.observation_space.n, env.action_space.n])
+
+#set learning parameters, you will play around with these
+lr = .6          #learning rate, how fast the Q-learning will learn at
+y = .9        #discount factor, how much future rewards matter
+num_episodes = 2000
+
+#create list to contain total rewards and steps per episode
+rewardsList = []
+for i in range(num_episodes):
+    s = env.reset()                     #reset environment and get first new observation
+    totalRewards = 0                 #reward during this game
+    d = False                             #is game finished
+    j = 0                                     #index for checking number of steps you allow algo to run
+    #Q learning algo
+    while j < 99:       #let the learning happen after 99 steps per game
+        j += 1
+        #choose action by greedily picking from Q table
+        a = np.argmax(Q[s,:] + np.random.randn(1,env.action_space.n)*(1./(i+1)))
+        #Get new state and reward from environment
+        new_state, reward, d, _ = env.step(a)
+        #Update Q-Table with new knowledge
+        Q[s,a] = Q[s,a] + lr*(reward + y*np.max(Q[new_state,:]) - Q[s,a])
+        totalRewards += reward
+        s = new_state
+        if d == True:
+            break
+    rewardsList.append(totalRewards)
+
+print(rewardsList)
