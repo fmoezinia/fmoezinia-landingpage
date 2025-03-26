@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Fredric Moezinia</title>
+  </head>
+  <body>
+
+    <h1>
+6.S198 Assignment 1
+name: Fredric Moezinia.
+email: moezinia@mit.edu.
+</h1>
+
+
+<p> Part 1: This is the code for the special button to display confidences. </p>
+<div> <img src="special_button_code.png" height="600" width="900"></div>
+
+<p> Below we can see that the classifier works well with high confidence (100% with 20 top K) for when comparing different inanimate objects.
+The squeezenet can distinguish easily between these types of objects compared to faces (even of different people). </p>
+<div> <img src="inanimate.png" height="600" width="900"></div>
+
+<p> Here the classifer tries to distinguish between a bare face and a picture of a face on an Iphone. We can
+  see that the classifer has difficulty distinguishing between the two. This is perhaps because the 1000 dimension vectors
+  of the bare face and picture of a face are very similar since they share a lot of pixels (the same face), and squeezenet's
+  1x1 filter does not extract the higher level difference.</p>
+<div> <img src="phone.png" height="600" width="900"></div>
+
+<p> The classifer has trouble with different faces in different lighting. There is no real confidence here as the two classes have a 55/45 confidence split.</p>
+<div> <img src="diff_people.png" height="600" width="900"></div>
+
+<br>
+
+<p> Part 2: Here is my new way of calculating the confidences for each class.
+The cosine similarity metric could lead to anomalies when finding the nearest K vectors since one image may have a high similarity by chance.
+ I treat a single image match (less than 2 in topK) as an anomaly, and appropriately scale the confidences based on the Kval so that the sum of confidences is 1, which
+makes the answers more intuitive. </p>
+<div> <img src="scaling.png" height="600" width="900"></div>
+
+
+<p> In this part, I use my new scaling method to judge the confidence of different classification attempts. I include one image from class A into class B to ensure that
+the 'anomaly' is not included in the confidence score. The image classification situation my technique is addressing is when there is a blatant incorrect image in a sample class set.
+Here my method performs better as it ignores the one anomalous image and sets the confidence of B to 1.</p>
+<div> <img src="conf.png" height="600" width="900"></div>
+<p>  </p>
+
+<p> Here is the code that limits the number of training examples per class (ie 40 for all in this image). </p>
+<div> <img src="training_size.png" height="600" width="900"></div>
+
+<p> The class sizes are 1, 10 and 100 here. We observe that the topK classifier will classify in favour of larger classifiers. The class with 100 is much more likely to have a higher
+confidence. </p>
+<div> <img src="large_class_size_likely.png" height="600" width="900"></div>
+<p> Here, even a image which should be classified as A, will not get classified to its 'closest' class due to its small class example size. </p>
+<div> <img src="bad_small_class_size.png" height="600" width="900"></div>
+
+<p> For this classification, I changed K from 20 to 100. The accuracy seems to go down as there is a lot more opportunity for other class images to be included in the topK (especially as
+  the class size is less than half the K size (40) which means other classes confidence increase even if their images have extremely high cosine disimilarity!).
+Here we can observe that the confience of class C is only about 40% compared to 30% of the other classes, which shows that the size of K in comparison to training set sizes are very important
+for accuracy</p>
+<div> <img src="100k.png" height="600" width="900"></div>
+
+  </body>
+</html>

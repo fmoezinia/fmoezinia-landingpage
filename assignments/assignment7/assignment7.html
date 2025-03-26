@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Fredric Moezinia</title>
+  </head>
+  <body>
+    <h1>
+6.S198 Assignment 7
+name: Fredric Moezinia.
+email: moezinia@mit.edu.
+</h1>
+
+
+<h2> Problem 1.1 </h2>
+<p>
+
+  LSTMs consist of chained, repeating modules.
+The two pieces of information passed between the modules are the previous state (t-1) and the new input to state t.
+
+ </p>
+
+ <h2> Problem 1.2</h2>
+
+ <p>
+The problem is that RNNs can not derive and keep relationships between things far away for each other.
+For example if the input is time variated, then inputs that are a long time apart are not easily related in RNNs due
+mostly to the vanishing gradient problems of RNNs. LSTMs attempt to address this problem by partially forgetting
+some state at each step; this selective 'remembering' makes it easier to relate two things which are far apart.
+  </p>
+
+
+<h2> Problem 1.3 </h2>
+<p>
+
+   In one of these views, we think of the RNN as being "unrolled" into a chain of repeating modules.
+The unrolling of RNNs reveals independent modules which are a temporal representation over time.
+The main piece that is shared across the modules in the internal connected layer that is trainable on inputs to yield outputs.
+The different pieces are the actual incoming vectors, which change at every module.
+
+ </p>
+
+ <h2> Problem 1.4 </h2>
+
+ <p>
+
+The sigmoid non linearity is used here instead of Relu since the current state vector needs to be multiplied by a number in the
+range 0 - 1 as the output represents the amount of state we want to remember at that particular stage in the network.
+
+  </p>
+
+
+
+  <h2> Problem 2.1 </h2>
+  <p>
+I completed the necessary code to run the model.
+    After running for 16 epochs, the model achieved a perplexity of 3.46.
+    However, the variablity of perplexity is still very high (3-8).
+Since this is much closer to 0 than initally, this shows the prediction is quite good.
+Examples of your generated sentence results here are : It looks, you will made, your think ang ago.
+   </p>
+
+   <h2> Problem 2.2</h2>
+
+   <p>
+Softmax sample temperature determines probabilities of predition outputs, changing
+what commonality of words are outputted. I found that a balance produced the most natural seeming text,
+of around 0.35-0.4.
+
+Examples of your generated sentence results:
+I will love the whole the star.
+I want my way the so wan don't do you to the lights the stand you don't gonna the word all the stand.
+I will for how the ready no me the love the star.
+
+    </p>
+
+
+  <h2> Problem 2.3 </h2>
+  <p>
+
+Observations: The sentences are running loaded on Dr Seuss and Adele data. The text definitely reflects the vocabulary
+of the input data sources. In general as well, the style of writing is replicated. Dr Seuss has many repeated frames,
+and this motif is carried forward into the observed genereated sentences as well. It is harder, however, to reason
+in terms of sentence length as inputs and outputs have both varying lengths of sentences.
+There is repeated vocabularly/sentence structure where sentences begin similarly:
+"I will ....." and "Oh, ....." "When the...." and "But, ...."
+   </p>
+
+   <h2> Problem 2.4 </h2>
+
+   <p>
+
+ 4. Try changing the model parameters and initialization.
+ Record your observations from at least one of these experiments. Some ideas are:
+   -  Increase or decrease the embedding size for the inputs
+   -  Increase or decrease the size of the hidden layers of each cell
+   -  Adjust the learning rate (Be careful: if the learning rate is too high, the perplexity may explode.)
+   -  Change the generator from LSTM to RNN.
+
+I changed the model parameters for RNN as follows:
+I increased the embedding size by 2 times, and decreased the hidden layer size of each cell by half.
+I decreased the learning rate to 0.00008.
+Observation here is that I had to train the model for many more epochs to get some sort of cohesive language output.
+Also, the vocabulary similarity was the defining 'state of memory' which was passed into the output sentences.
+
+    </p>
+    <h2> Optional 2.4! </h2>
+    <p>
+      Here, I passed in two very different types of data, both in the English language.
+      I used Justin Bieber lyrics which are normally extremely repetitive (such as Baby) and I used
+      a text analysis from Geoff Schreeves of a champions league football game. The language is much more varied and also different
+      from Justin Bieber.
+
+  Some sentences outputted using an LSTM model with a lower learning rate (0.00005) and after 20 epochs are:
+
+  "Oh them pass on to her", "Cause me pain from football" were good examples of mixing these two datasets.
+     </p>
+
+     <h2> Problem 3 </h2>
+     <p><a href="notebook.txt">Code: jupyter notebook code</a></p>
+     <h2> Problem 3.2 </h2>
+     <p><a href="notebook.txt">Midi file here</a></p>
+
+
+  </body>
+</html>

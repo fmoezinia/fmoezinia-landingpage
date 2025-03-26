@@ -1,0 +1,120 @@
+<!-- Contributed by David Bau, in the public domain -->
+
+<template>
+<div class="vectorlist">
+  <div v-for="(vector, index) in vectors" class="vector">
+    <input v-model="vector.text">
+    <button @click="selectVector(index)">&rarr;</button>
+    <button @click="deleteVector(index)">x</button>
+  </div>
+  <div class="operation">
+  <button @click="saveVector()">Save current sample</button>
+  </div>
+  <div class="operation">
+  <!-- TODO: Change this button to do something interesting -->
+  <button @click="applyVectorMath()">Apply vector math</button>
+  </div>
+  <div class="operation">
+  <button @click="findKNN()">Find ID of NN</button>
+  </div>
+</div>
+</template>
+
+<script>
+import {Array1D, ENV} from 'deeplearn';
+
+const math = ENV.math;
+
+//This json file includes all of the Font IDs in our database and their 40-dimensional logits vector.
+var json = require('../embeddings.json');
+
+export default {
+  props: {
+    selectedSample: { },
+    model: { },
+    vectors: { type: Array, default: () => [ { text: "0" } ] }
+  },
+  methods: {
+    saveVector() {
+      this.selectedSample.data().then(x =>
+         this.vectors.push({ text: Array.prototype.slice.call(x).join(',') })
+      );
+    },
+    deleteVector(index) {
+      this.vectors.splice(index, 1);
+    },
+    selectVector(index) {
+      this.$emit("select", { selectedSample: this.model.fixdim(
+           Array1D.new(this.vectors[index].text.split(',').map(parseFloat)))});
+    },
+
+    dot_product(ary1, ary2) {
+        if (ary1.length != ary2.length)
+            throw "can't find dot product: arrays have different lengths";
+        var dotprod = 0;
+        for (var i = 0; i < ary1.length; i++) {
+            dotprod += ary1[i] * ary2[i];
+        }
+        return dotprod;
+    },
+
+    norm(vec) {
+    var total = 0;
+      for (var i = 0; i < vec.length; i++) {
+        total += (Math.pow(vec[i], 2));
+      }
+      return Math.sqrt(total);
+    },
+
+    applyVectorMath() {
+      this.$emit("select", { selectedSample:
+           math.add(this.selectedSample, this.model.fixdim(
+               Array1D.new([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]))) } )
+    },
+
+    //Implement findKNN to output the font ID of the nearest neighbor
+    async findKNN() {
+      console.log("finding knn");
+      var currentFontVector = [];
+      //this.selectedSample.data().then(x=>currentFontVector.push(x));
+      currentFontVector = await this.selectedSample.data();
+      var bestFontID = 0;
+      var bestSimilarity = 0;
+      for (var id = 0; id< 50000; id++) {
+        var curVector = json[id];
+        var cosineSimilarity = this.dot_product(currentFontVector, curVector)/(this.norm(currentFontVector)*this.norm(curVector));
+        if (Math.abs(cosineSimilarity) > bestSimilarity) {
+          bestSimilarity = cosineSimilarity
+          bestFontID = id
+        }
+      }
+      console.log(bestFontID);
+      alert(bestFontID);
+
+    },
+
+  },
+  watch: {
+    model: function(val) {
+      for (let i = 0; i < this.vectors.length; ++i) {
+        let arr = this.vectors[i].text.split(',');
+        if (arr.length > this.model.dimensions) {
+            arr = arr.slice(0, this.model.dimensions);
+        }
+        while (arr.length < this.model.dimensions) {
+            arr.push('0');
+        }
+        this.vectors[i].text = arr.join(',');
+      }
+    }
+  },
+}
+</script>
+
+<style scoped>
+.vector, .operation {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+</style>

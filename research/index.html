@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Ricky's Research</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+
+	  <?php include_once("analyticstracking.php") ?>
+
+    <section class="main-content">
+
+<h3><a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+ Some topics I've explored
+</h3>
+<br>
+
+	<p><center><b>Zero Knowledge Range Proofs</b> </center>
+We (Novi Crypto Research) published a paper on <a href="https://eprint.iacr.org/2021/297">range proofs</a>. These have loads of applications, from proving income ranges (ZK accreditation) to ZK geolocation.
+<br><br>
+
+<p><center><b>Heterogeneous POW Consensus Protocols</b> </center>
+  I wrote a paper on how heterogeneous network conditions affect distributed systems with a friend at MIT.
+
+As blockchain systems scale, and network parameters are taken to the limit, network conditions may impact consensus protocols.
+I analyzed the impact of heterogeneous network conditions on consensus protocols as block times tend towards their limit.
+By simulating POW protocols in a heterogeneous peer-to-peer networks, I was able to break consensus by performing an attack with less than 50% malicious hash power.
+This research aims to raise awareness about disparate network conditions in systems with short interblock times, and suggests alterations to
+random peering mechanisms such as Bitcoin's.
+<br><br>
+
+<p><center><b>Digital Currency Initiative - MIT Media Lab</b> </center>
+  I worked on enabling <a href="https://dci.mit.edu/smart-contracts/">Discreet Log Contracts</a> in Lightning, a Bitcoin L2. These can primarily be used as onchain BTC futures contracts.
+<br>
+
+
+<p><center><b>Adversarial Infill</b></center>
+  Semantic infilling involves filling in significant portions of corrupted images. I explored adversarial methods of achieving semantic infilling on
+  faces. I used a DCGAN (deep convolutional generative adversarial network) trained on facial images to reconstruct portions of images.
+<br><br>
+
+
+    </section>
+
+
+  </body>
+</html>
